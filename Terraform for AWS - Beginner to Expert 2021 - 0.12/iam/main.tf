@@ -1,0 +1,145 @@
+provider "aws" {
+  region = "ap-southeast-1"
+}
+
+resource "aws_iam_user" "myUserInTerraform" {
+  name = "TanPham"
+}
+
+resource "aws_iam_policy" "myCustomPolicy" {
+  name = "GlacierEFSEC2"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:ReplaceRouteTableAssociation",
+                "ec2:ModifyManagedPrefixList",
+                "elasticfilesystem:PutAccountPreferences",
+                "ec2:ResetInstanceAttribute",
+                "ec2:ResetEbsDefaultKmsKeyId",
+                "ec2:ModifyVpnConnectionOptions",
+                "ec2:UnassignPrivateIpAddresses",
+                "glacier:PurchaseProvisionedCapacity",
+                "ec2:DisableImageDeprecation",
+                "ec2:DeleteTransitGatewayPeeringAttachment",
+                "ec2:ImportKeyPair",
+                "ec2:CancelCapacityReservationFleets",
+                "ec2:ReplaceNetworkAclAssociation",
+                "ec2:CreateVpcEndpointServiceConfiguration",
+                "ec2:DeleteNatGateway",
+                "ec2:CancelCapacityReservation",
+                "ec2:EnableTransitGatewayRouteTablePropagation",
+                "elasticfilesystem:ClientRootAccess",
+                "glacier:ListVaults",
+                "ec2:ModifyVpcEndpoint",
+                "ec2:ModifyInstanceCapacityReservationAttributes",
+                "ec2:ImportVolume",
+                "ec2:ModifyFleet",
+                "ec2:RequestSpotFleet",
+                "ec2:CreateSubnetCidrReservation",
+                "ec2:DeleteTransitGatewayMulticastDomain",
+                "elasticfilesystem:PutLifecycleConfiguration",
+                "ec2:ModifyReservedInstances",
+                "ec2:ReleaseAddress",
+                "ec2:CreateTrafficMirrorTarget",
+                "ec2:ModifyTrafficMirrorFilterRule",
+                "ec2:CreateClientVpnRoute",
+                "ec2:CreateLocalGatewayRoute",
+                "ec2:SendSpotInstanceInterruptions",
+                "ec2:ProvisionByoipCidr",
+                "ec2:DisableSerialConsoleAccess",
+                "ec2:DeleteVpcEndpointConnectionNotifications",
+                "ec2:RestoreAddressToClassic",
+                "ec2:DeleteCustomerGateway",
+                "ec2:ModifyVpcTenancy",
+                "ec2:ApplySecurityGroupsToClientVpnTargetNetwork",
+                "ec2:ConfirmProductInstance",
+                "elasticfilesystem:DescribeBackupPolicy",
+                "ec2:EnableEbsEncryptionByDefault",
+                "ec2:PurchaseHostReservation",
+                "ec2:ReplaceIamInstanceProfileAssociation",
+                "ec2:DisassociateEnclaveCertificateIamRole",
+                "ec2:CreateTransitGatewayPrefixListReference",
+                "ec2:ModifyTrafficMirrorSession",
+                "ec2:CreateTransitGatewayPeeringAttachment",
+                "ec2:DeleteTransitGatewayVpcAttachment",
+                "ec2:AssociateTrunkInterface",
+                "ec2:ReplaceNetworkAclEntry",
+                "ec2:ModifyVpcPeeringConnectionOptions",
+                "ec2:CreateTransitGatewayMulticastDomain",
+                "ec2:CreateTrafficMirrorFilterRule",
+                "ec2:ImportImage",
+                "ec2:DeleteVpnConnection",
+                "ec2:RejectVpcEndpointConnections",
+                "ec2:ModifyEbsDefaultKmsKeyId",
+                "ec2:ResetImageAttribute",
+                "ec2:SendDiagnosticInterrupt",
+                "ec2:DisableTransitGatewayRouteTablePropagation",
+                "ec2:CreateVpcEndpointConnectionNotification",
+                "ec2:CreateCustomerGateway",
+                "ec2:DeleteTransitGatewayRouteTable",
+                "ec2:DeleteTransitGatewayRoute",
+                "ec2:DeleteVpc",
+                "ec2:CancelSpotFleetRequests",
+                "glacier:GetVaultNotifications",
+                "elasticfilesystem:DescribeLifecycleConfiguration",
+                "ec2:ModifyInstanceAttribute",
+                "glacier:UploadArchive",
+                "ec2:AttachClassicLinkVpc",
+                "ec2:RestoreManagedPrefixListVersion",
+                "ec2:CreateLaunchTemplateVersion",
+                "ec2:DeleteSecurityGroup",
+                "ec2:StartVpcEndpointServicePrivateDnsVerification",
+                "ec2:CreateFpgaImage",
+                "ec2:DisassociateTrunkInterface",
+                "ec2:EnableVpcClassicLinkDnsSupport",
+                "ec2:AcceptTransitGatewayMulticastDomainAssociations",
+                "ec2:DeleteSubnetCidrReservation",
+                "ec2:CreateDhcpOptions",
+                "ec2:ModifyVolumeAttribute",
+                "ec2:DeleteClientVpnEndpoint",
+                "ec2:DeleteLocalGatewayRouteTableVpcAssociation",
+                "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+                "ec2:DeleteRouteTable",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:DeleteInternetGateway",
+                "ec2:BundleInstance",
+                "ec2:DisableFastSnapshotRestores",
+                "ec2:CreateTags",
+                "glacier:DeleteVault",
+                "ec2:CreateLocalGatewayRouteTableVpcAssociation",
+                "ec2:ModifySecurityGroupRules",
+                "ec2:DisassociateRouteTable",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:CreateDefaultVpc",
+                "glacier:ListMultipartUploads",
+                "ec2:CreateSnapshots",
+                "glacier:GetVaultLock",
+                "glacier:DescribeVault",
+                "ec2:ModifyVpnConnection",
+                "elasticfilesystem:ClientWrite",
+                "ec2:RejectTransitGatewayPeeringAttachment",
+                "ec2:CreateDefaultSubnet",
+                "elasticfilesystem:DeleteMountTarget",
+                "ec2:CreateInstanceExportTask",
+                "ec2:DeleteTrafficMirrorFilter",
+                "ec2:DeleteLaunchTemplate",
+                "ec2:ImportInstance"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+  EOF
+}
+
+resource "aws_iam_policy_attachment" "policyBind" {
+  name = "attachment - bind aim policies to user"
+  users = [ aws_iam_user.myUserInTerraform.name ]
+  policy_arn = aws_iam_policy.myCustomPolicy.arn
+}
